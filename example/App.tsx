@@ -1,115 +1,68 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, TouchableNativeFeedback, View } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import { multiply } from '../src/index';
 
-const Section: React.FC<{
-  title: string;
-}> = ({children, title}) => {
-  const isDarkMode = useColorScheme() === 'dark';
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    borderRadius: 10,
+    backgroundColor: '#000',
+    padding: 10,
+  },
+  label: {
+    color: '#FFF',
+  },
+  displayText: {
+    margin: 30,
+  },
+});
+
+function getRandomInt(max: number = 10) {
+  return Math.floor(Math.random() * max);
+}
+
+const App = () => {
+  const [value, setValue] = React.useState('?');
+
+  const [a, setA] = React.useState(2);
+  const [b, setB] = React.useState(3);
+
+  const randomizeABvalues = () => {
+    setValue('?');
+    setA(getRandomInt(20));
+    setB(getRandomInt(20));
+  };
+
+  const calculateNewValue = async () => {
+    const newValue = await multiply(a, b);
+
+    setValue(newValue.toString());
+  };
+
+  const textToDisplay = `${a} * ${b} = ${value}`;
+
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={styles.screen}>
+      <TouchableNativeFeedback onPress={randomizeABvalues}>
+        <View style={styles.button}>
+          <Text style={styles.label}>Randomize new values</Text>
+        </View>
+      </TouchableNativeFeedback>
+
+      <Text style={styles.displayText}>{textToDisplay}</Text>
+
+      <TouchableNativeFeedback onPress={calculateNewValue}>
+        <View style={styles.button}>
+          <Text style={styles.label}>Calculate</Text>
+        </View>
+      </TouchableNativeFeedback>
     </View>
   );
 };
-
-const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
