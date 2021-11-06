@@ -1,5 +1,9 @@
 import { NativeModules, Platform } from 'react-native';
 
+declare global {
+  function multiply(a: number, b: number): number;
+}
+
 const LINKING_ERROR =
   `The package 'react-native-jsi-preview' doesn't seem to be linked. Make sure: \n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
@@ -17,6 +21,10 @@ const JsiPreview = NativeModules.JsiPreview
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
+export function multiply_bridge(a: number, b: number): Promise<number> {
   return JsiPreview.multiply(a, b);
+}
+
+export function multiply_cpp_JSI(a: number, b: number): number {
+  return global.multiply(a, b);
 }

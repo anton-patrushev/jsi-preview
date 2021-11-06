@@ -6,10 +6,7 @@ platform :ios, '11.0'
 target 'example' do
   config = use_native_modules!
   
-  # use_modular_headers!
   pod 'React-jsi', :path => '../node_modules/react-native/ReactCommon/jsi', :modular_headers => true
-  # pod 'react-native-jsi-preview', :path => '../../', :modular_headers => true
-  pod 'react-native-jsi-preview', :path => '../../'
 
   use_react_native!(
     :path => config[:reactNativePath],
